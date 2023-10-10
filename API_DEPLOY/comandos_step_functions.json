@@ -1,0 +1,28 @@
+-- Configuracion quería a Athena 
+
+{
+  "QueryString": "SELECT distinct(order_type) as order_type, count(order_type) as qty FROM analytics.st_GrafanaStepFunctionsSNS group by 1 order by 2 desc; ",
+  "WorkGroup": "primary",
+  "ResultConfiguration": {
+    "OutputLocation": "s3://gt-datalake-dev-us-east-2-508186271604-athena/st_GrafanaStepFunctionsSNS/"
+  }
+}
+
+-- Configuracion Get Querys
+
+{
+  "MaxResults": 10,
+  "QueryExecutionId.$": "$.QueryExecution.QueryExecutionId"
+}
+
+-- Output Get Query Results
+{
+  "Visitas.$": "$.ResultSet.Rows[1].Data[1].VarCharValue",
+  "compras.$": "$.ResultSet.Rows[2].Data[1].VarCharValue"
+}
+
+-- Cron expression
+
+*/5 * * * ? * -- Cada 5 minutos
+
+* * * * ? *  -- Cada minuto
